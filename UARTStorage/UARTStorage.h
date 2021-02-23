@@ -17,10 +17,7 @@
  #define UARTSTORAGE_H
 
 #include "mbed.h"
-
-#include <string>
-#include <sstream>
-#include <map>
+#include "SPIFBlockDevice.h"
 
 
 class UARTStorage
@@ -28,14 +25,27 @@ class UARTStorage
     public:
         UARTStorage();
 
+        //Use default SPI pins but at 1MHz by default to be tolerant of wires to SPI chip
+        int init_SPIFlash(PinName mosi = MBED_CONF_SPIF_DRIVER_SPI_MOSI,
+                    PinName miso = MBED_CONF_SPIF_DRIVER_SPI_MISO,
+                    PinName sclk = MBED_CONF_SPIF_DRIVER_SPI_CLK,
+                    PinName csel = MBED_CONF_SPIF_DRIVER_SPI_CS,
+                    int freq = 1000000);
+
+        int write_SPIF_Stats(FILE* fd);
+
+        void spif_test_program(FILE* pc);
+
 
         ~UARTStorage();
 
     private:
-        Thread _thread_serialProcess;
+        SPIFBlockDevice* spif;
 
-        // parses the input from serial
-        void inputProcessThread();
+        //todo record SPIF stats for a session
+        uint32_t erase_count = 0;
+        uint32_t write_count = 0;
+        uint32_t read_count = 0;
 };
 
 
