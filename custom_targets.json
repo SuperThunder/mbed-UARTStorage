@@ -1,0 +1,358 @@
+{
+    "STM32F407VE_BLACK": {
+        "inherits": ["MCU_STM32F4"],
+        "core": "Cortex-M4F",
+        "extra_labels_add": [
+            "STM32F4",
+            "STM32F407xE"
+        ],
+        "macros_add": [
+            "STM32F407xx"
+        ],
+        "supported_toolchains": ["ARM", "GCC_ARM", "IAR"],
+        "device_has_remove": [
+            "SERIAL_FC"
+        ],
+        "overrides": {
+            "lse_available": 0,
+            "clock_source": "USE_PLL_HSE_XTAL | USE_PLL_HSI",
+            "network-default-interface-type": "ETHERNET"
+        },
+        "device_has_add": [
+            "ANALOGOUT", 
+            "MPU", 
+            "TRNG", 
+            "FLASH",
+            "EMAC",
+            "SDIO",
+            "USBDEVICE"
+        ],
+        "components_add": ["SDIO", "SPIF"],
+        "release_versions": ["2", "5"],
+        "device_name": "STM32F407VETx"
+    },
+    "BLUEPILL_F103CB": {
+        "inherits": [
+            "MCU_STM32F103xB"
+        ],
+        "device_name": "STM32F103RB",
+        "overrides": {
+            "clock_source": "USE_PLL_HSE_XTAL | USE_PLL_HSI"
+        },
+        "device_has_add": [
+            "CAN",
+            "SERIAL_ASYNCH",
+            "FLASH",
+            "USBDEVICE"
+        ],
+        "release_versions": ["2", "5"],
+        "device_has_remove": ["STDIO_MESSAGES"]
+    },
+    "WEACT_F411CE": {
+        "inherits": ["MCU_STM32F4"],
+        "core": "Cortex-M4F",
+        "macros_add": [
+            "STM32F411xE"
+        ],
+        "extra_labels_add": [
+            "STM32F4",
+            "STM32F411xE"
+        ],
+        "components_add": ["FLASHIAP", "SPIF"],
+        "overrides": {
+            "clock_source": "USE_PLL_HSE_XTAL | USE_PLL_HSI"
+        },
+        "config": {
+            "hse_value": {
+                "value": "25000000",
+                "macro_name": "HSE_VALUE"
+            }
+        },
+        "device_has_add": [
+            "SERIAL_ASYNCH",
+            "FLASH",
+            "MPU",
+            "USBDEVICE"
+        ],
+        "release_versions": ["2", "5"],
+        "device_name": "STM32F411CEUx"
+    },
+    "WEACT_F401CC": {
+        "inherits": [
+            "MCU_STM32F4"
+        ],
+        "extra_labels_add": [
+            "STM32F401xC"
+        ],
+        "macros_add": [
+            "STM32F401xC"
+        ],
+        "components_add": ["SPIF"],
+        "overrides": {
+            "clock_source": "USE_PLL_HSE_XTAL | USE_PLL_HSI"
+        },
+        "config": {
+            "hse_value": {
+                "help": "HSE default value is 25MHz in HAL",
+                "value": "25000000",
+                "macro_name": "HSE_VALUE"
+            },
+            "usb_speed": {
+                "help": "USE_USB_OTG_FS or USE_USB_OTG_HS or USE_USB_HS_IN_FS",
+                "value": "USE_USB_OTG_FS"
+            }
+        },
+        "device_has_add": [
+            "USBDEVICE"
+        ],
+        "release_versions": ["2", "5"],
+        "device_name": "STM32F401CCUx"
+    },
+    "WEACT_F401CE": {
+        "inherits": [
+            "MCU_STM32F4"
+        ],
+        "extra_labels_add": [
+            "STM32F401xE"
+        ],
+        "macros_add": [
+            "STM32F401xE"
+        ],
+        "components_add": ["SPIF"],
+        "overrides": {
+            "clock_source": "USE_PLL_HSE_XTAL | USE_PLL_HSI"
+        },
+        "config": {
+            "hse_value": {
+                "help": "HSE default value is 25MHz in HAL",
+                "value": "25000000",
+                "macro_name": "HSE_VALUE"
+            },
+            "usb_speed": {
+                "help": "USE_USB_OTG_FS or USE_USB_OTG_HS or USE_USB_HS_IN_FS",
+                "value": "USE_USB_OTG_FS"
+            }
+        },
+        "device_has_add": [
+            "USBDEVICE"
+        ],
+        "release_versions": ["2", "5"],
+        "device_name": "STM32F401CEUx"
+    },
+    "DEVEBOX_F407VG": {
+        "inherits": ["MCU_STM32F4"],
+        "extra_labels_add": [
+            "STM32F407xG"
+        ],
+        "macros_add": [
+            "STM32F407xx"
+        ],
+        "supported_toolchains": ["ARM", "GCC_ARM", "IAR"],
+        "overrides": {
+            "clock_source": "USE_PLL_HSE_XTAL | USE_PLL_HSI",
+            "lse_available": 0,
+            "network-default-interface-type": "ETHERNET"
+        },
+        "device_has_add": [
+            "ANALOGOUT", 
+            "TRNG", 
+            "EMAC",
+            "SDIO",
+            "USBDEVICE"
+        ],
+        "components_add": ["SDIO", "SPIF"],
+        "release_versions": ["2", "5"],
+        "device_name": "STM32F407VG"
+    },
+    "IMSMU_F407VG": {
+        "inherits": ["MCU_STM32F4"],
+        "core": "Cortex-M4F",
+        "extra_labels_add": [
+            "STM32F4",
+            "STM32F407xG"
+        ],
+        "macros_add": [
+            "STM32F407xx"
+        ],
+        "supported_toolchains": ["ARM", "GCC_ARM", "IAR"],
+        "config": {
+            "hse_value": {
+                "value": "25000000",
+                "macro_name": "HSE_VALUE"
+            }
+        },
+        "overrides": {
+            "clock_source": "USE_PLL_HSE_EXTC|USE_PLL_HSI"
+        },
+        "device_has_remove": [
+            "SERIAL_FC"
+        ],
+        "overrides": {
+            "lse_available": 0,
+            "network-default-interface-type": "ETHERNET"
+        },
+        "device_has_add": [
+            "ANALOGOUT", 
+            "MPU", 
+            "TRNG", 
+            "FLASH",
+            "EMAC",
+            "SDIO",
+            "USBDEVICE"
+        ],
+        "components_add": ["SDIO", "SPIF"],
+        "release_versions": ["2", "5"],
+        "device_name": "STM32F407VGTx"
+    },
+    "IMSLA_F746VG": {
+        "inherits": [
+            "MCU_STM32F4"
+        ],
+        "core": "Cortex-M7F",
+        "extra_labels_add": [
+            "STM32F7",
+            "STM32F746xG",
+            "STM32F746VG"
+        ],
+        "overrides": {
+            "lpticker_delay_ticks": 0,
+            "clock_source": "USE_PLL_HSE_EXTC|USE_PLL_HSI",
+            "network-default-interface-type": "ETHERNET"
+        },
+        "config": {
+            "d11_configuration": {
+                "help": "Value: PA_7 for the default board configuration, PB_5 in case of solder bridge update (SB121 off/ SB122 on)",
+                "value": "PA_7",
+                "macro_name": "STM32_D11_SPI_ETHERNET_PIN"
+            },
+            "lpticker_lptim": {
+                "help": "This target supports LPTIM. Set value 1 to use LPTIM for LPTICKER, or 0 to use RTC wakeup timer",
+                "value": 1
+            }
+        },
+        "macros_add": [
+            "STM32F746xx",
+            "HSE_VALUE=25000000",
+            "EXTRA_IDLE_STACK_REQUIRED"
+        ],
+        "components_add": [
+            "FLASHIAP"
+        ],
+        "detect_code": [
+            "0816"
+        ],
+        "device_has_add": [
+            "ANALOGOUT",
+            "CAN",
+            "CRC",
+            "EMAC",
+            "SERIAL_ASYNCH",
+            "TRNG",
+            "FLASH",
+            "MPU"
+        ],
+        "release_versions": [
+            "2",
+            "5"
+        ],
+        "device_name": "STM32F746VGTx",
+        "bootloader_supported": true
+    },
+    "NODE_LPC812": {
+        "core": "Cortex-M0+",
+        "default_toolchain": "ARM",
+        "extra_labels": ["NXP", "LPC81X"],
+        "supported_toolchains": ["ARM", "GCC_ARM"],
+        "inherits": ["LPCTarget"],
+        "device_has": [
+            "I2C",
+            "I2CSLAVE",
+            "INTERRUPTIN",
+            "PWMOUT",
+            "SERIAL",
+            "SERIAL_FC",
+            "SLEEP",
+            "SPI",
+            "SPISLAVE",
+            "USTICKER"
+        ],
+        "overrides": {
+            "boot-stack-size": "0x400"
+        },
+        "c_lib": "small",
+        "release_versions": ["5"],
+        "supported_application_profiles": [
+            "bare-metal"
+        ],
+        "device_name": "LPC812M101JDH20"
+    },
+    "NODE_LPC824": {
+        "core": "Cortex-M0+",
+        "default_toolchain": "ARM",
+        "extra_labels": ["NXP", "LPC82X"],
+        "supported_toolchains": ["ARM", "GCC_ARM"],
+        "inherits": ["LPCTarget"],
+        "device_has": [
+            "ANALOGIN",
+            "I2C",
+            "I2CSLAVE",
+            "INTERRUPTIN",
+            "PWMOUT",
+            "SERIAL",
+            "SLEEP",
+            "SPI",
+            "SPISLAVE",
+            "USTICKER"
+        ],
+        "c_lib": "small",
+        "release_versions": ["5"],
+        "supported_application_profiles": [
+            "bare-metal"
+        ],
+        "device_name": "LPC824M201JDH20"
+    },
+    "DEVEBOX_H743VI": {
+        "inherits": [
+            "MCU_STM32H7"
+        ],
+        "core": "Cortex-M7FD",
+        "mbed_ram_start": "0x24000000",
+        "mbed_ram_size": "0x80000",
+        "extra_labels_add": [
+            "STM32H743xI"
+        ],
+        "config": {
+            "d11_configuration": {
+                "help": "Value: PB_5 for the default board configuration, PA_7 in case of solder bridge update (SB33 on/ SB35 off)",
+                "value": "PB_5",
+                "macro_name": "STM32_D11_SPI_ETHERNET_PIN"
+            },
+            "usb_speed": {
+                "help": "USE_USB_OTG_FS or USE_USB_OTG_HS or USE_USB_HS_IN_FS",
+                "value": "USE_USB_OTG_FS"
+            },
+            "hse_value": {
+                "help": "HSE default value is 25MHz in HAL",
+                "value": "25000000",
+                "macro_name": "HSE_VALUE"
+            },
+            "lse_drive_load_level": {
+                "help": "HSE drive load level",
+                "value": "RCC_LSEDRIVE_LOW",
+                "macro_name": "TARGET_LSE_DRIVE_LOAD_LEVEL"
+            }
+        },
+        "overrides": {
+            "clock_source": "USE_PLL_HSE_XTAL | USE_PLL_HSI",
+            "network-default-interface-type": "ETHERNET"
+        },
+        "macros_add": [
+            "STM32H743xx"
+        ],
+        "device_has_add": [
+            "EMAC",
+            "USBDEVICE"
+        ],
+        "device_name": "STM32H743VITx"
+    }
+}

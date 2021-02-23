@@ -1,0 +1,12 @@
+{
+    "target_overrides": {
+        "*": {
+            "target.components_add": ["SPIF"],
+            "target.features_add": ["STORAGE"],
+            "target.features_remove": [],
+            "target.c_lib": "std",
+            "target.printf_lib": "minimal",
+            "platform.stdio-baud-rate": 115200
+        }
+    }
+}
