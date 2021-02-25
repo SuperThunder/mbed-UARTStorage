@@ -28,7 +28,7 @@ class serialCLI
         //takes a file descriptor for your serial stream to write
         //and the bufserial object to read from
         //because I couldn't get mbed-os 6 to fscanf from the serial FILE
-        serialCLI(BufferedSerial* buf_serial, FILE* serial_fd, Callback<void(char *)> lineBufferCallback);
+        serialCLI(BufferedSerial* buf_serial, FILE* serial_fd, Callback<void(char *, FILE*)> lineBufferCallback);
 
         ~serialCLI();
 
@@ -36,7 +36,7 @@ class serialCLI
         //TODO: try to find out why scanf doesn't work on the FILE* pc
         BufferedSerial* bufserial;
         FILE* pc;
-        Callback<void(char*)> lineBufferCallback;
+        Callback<void(char*, FILE*)> lineBufferCallback;
 
         Thread serialCLI_RX_Thread;
         void serialCLI_RX_Loop();

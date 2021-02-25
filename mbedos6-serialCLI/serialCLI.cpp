@@ -16,7 +16,7 @@
 #include "serialCLI.h"
 
 
-serialCLI::serialCLI(BufferedSerial* buf_serial, FILE* serial_fd, Callback<void(char *)> lineBufferCallback)
+serialCLI::serialCLI(BufferedSerial* buf_serial, FILE* serial_fd, Callback<void(char *, FILE*)> lineBufferCallback)
 {
     bufserial = buf_serial;
     pc = serial_fd;
@@ -62,7 +62,7 @@ void serialCLI::serialCLI_RX_Loop()
                     //fprintf(pc, "\n");
 
                     lineBuffer[lineBufferIndex++] = '\0'; //don't include the newline in the line buffer
-                    lineBufferCallback(lineBuffer);
+                    lineBufferCallback(lineBuffer, pc);
                     lineBufferIndex = 0;
             }
             //handle backspace behaviour - print back backspace, then a space to clear the character, then another backspace
@@ -89,6 +89,8 @@ void serialCLI::serialCLI_RX_Loop()
                 //do nothing
             }
         }
+
+        ThisThread::sleep_for(1ms);
     }
 }
 

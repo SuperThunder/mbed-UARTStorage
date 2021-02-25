@@ -1,6 +1,6 @@
 {
     "STM32F407VE_BLACK": {
-        "inherits": ["MCU_STM32F4"],
+        "inherits": ["MCU_STM32"],
         "core": "Cortex-M4F",
         "extra_labels_add": [
             "STM32F4",
@@ -10,12 +10,18 @@
             "STM32F407xx"
         ],
         "supported_toolchains": ["ARM", "GCC_ARM", "IAR"],
+        "config": {
+            "clock_source": {
+                "help": "Mask value : USE_PLL_HSE_EXTC (need HW patch) | USE_PLL_HSE_XTAL | USE_PLL_HSI",
+                "value": "USE_PLL_HSE_XTAL|USE_PLL_HSI",
+                "macro_name": "CLOCK_SOURCE"
+            }
+        },
         "device_has_remove": [
             "SERIAL_FC"
         ],
         "overrides": {
             "lse_available": 0,
-            "clock_source": "USE_PLL_HSE_XTAL | USE_PLL_HSI",
             "network-default-interface-type": "ETHERNET"
         },
         "device_has_add": [
@@ -49,7 +55,7 @@
         "device_has_remove": ["STDIO_MESSAGES"]
     },
     "WEACT_F411CE": {
-        "inherits": ["MCU_STM32F4"],
+        "inherits": ["MCU_STM32"],
         "core": "Cortex-M4F",
         "macros_add": [
             "STM32F411xE"
@@ -59,10 +65,12 @@
             "STM32F411xE"
         ],
         "components_add": ["FLASHIAP", "SPIF"],
-        "overrides": {
-            "clock_source": "USE_PLL_HSE_XTAL | USE_PLL_HSI"
-        },
         "config": {
+            "clock_source": {
+                "help": "Mask value : USE_PLL_HSE_EXTC | USE_PLL_HSE_XTAL | USE_PLL_HSI",
+                "value": "USE_PLL_HSE_XTAL | USE_PLL_HSI",
+                "macro_name": "CLOCK_SOURCE"
+            },
             "hse_value": {
                 "value": "25000000",
                 "macro_name": "HSE_VALUE"
@@ -165,7 +173,7 @@
         "device_name": "STM32F407VG"
     },
     "IMSMU_F407VG": {
-        "inherits": ["MCU_STM32F4"],
+        "inherits": ["MCU_STM32"],
         "core": "Cortex-M4F",
         "extra_labels_add": [
             "STM32F4",
@@ -176,13 +184,15 @@
         ],
         "supported_toolchains": ["ARM", "GCC_ARM", "IAR"],
         "config": {
+            "clock_source": {
+                "help": "Mask value : USE_PLL_HSE_EXTC (need HW patch) | USE_PLL_HSE_XTAL | USE_PLL_HSI",
+                "value": "USE_PLL_HSE_EXTC|USE_PLL_HSI",
+                "macro_name": "CLOCK_SOURCE"
+            },
             "hse_value": {
                 "value": "25000000",
                 "macro_name": "HSE_VALUE"
             }
-        },
-        "overrides": {
-            "clock_source": "USE_PLL_HSE_EXTC|USE_PLL_HSI"
         },
         "device_has_remove": [
             "SERIAL_FC"
@@ -206,7 +216,7 @@
     },
     "IMSLA_F746VG": {
         "inherits": [
-            "MCU_STM32F4"
+            "MCU_STM32"
         ],
         "core": "Cortex-M7F",
         "extra_labels_add": [
@@ -214,16 +224,16 @@
             "STM32F746xG",
             "STM32F746VG"
         ],
-        "overrides": {
-            "lpticker_delay_ticks": 0,
-            "clock_source": "USE_PLL_HSE_EXTC|USE_PLL_HSI",
-            "network-default-interface-type": "ETHERNET"
-        },
         "config": {
             "d11_configuration": {
                 "help": "Value: PA_7 for the default board configuration, PB_5 in case of solder bridge update (SB121 off/ SB122 on)",
                 "value": "PA_7",
                 "macro_name": "STM32_D11_SPI_ETHERNET_PIN"
+            },
+            "clock_source": {
+                "help": "Mask value : USE_PLL_HSE_EXTC | USE_PLL_HSE_XTAL (need HW patch) | USE_PLL_HSI",
+                "value": "USE_PLL_HSE_EXTC|USE_PLL_HSI",
+                "macro_name": "CLOCK_SOURCE"
             },
             "lpticker_lptim": {
                 "help": "This target supports LPTIM. Set value 1 to use LPTIM for LPTICKER, or 0 to use RTC wakeup timer",
@@ -256,7 +266,11 @@
             "5"
         ],
         "device_name": "STM32F746VGTx",
-        "bootloader_supported": true
+        "bootloader_supported": true,
+        "overrides": {
+            "lpticker_delay_ticks": 0,
+            "network-default-interface-type": "ETHERNET"
+        }
     },
     "NODE_LPC812": {
         "core": "Cortex-M0+",
@@ -335,11 +349,6 @@
                 "help": "HSE default value is 25MHz in HAL",
                 "value": "25000000",
                 "macro_name": "HSE_VALUE"
-            },
-            "lse_drive_load_level": {
-                "help": "HSE drive load level",
-                "value": "RCC_LSEDRIVE_LOW",
-                "macro_name": "TARGET_LSE_DRIVE_LOAD_LEVEL"
             }
         },
         "overrides": {
