@@ -18,6 +18,7 @@
 
 #include "mbed.h"
 #include "SPIFBlockDevice.h"
+//TODO find MD5 library
 
 #define SERIAL_DATA_CHUNKSIZE 64
 
@@ -42,19 +43,26 @@ class UARTStorage
         char* get_WriteBuffer();
         char* get_ReadBuffer();
 
-        // Program the current contents of the write buffer, up to a whole block
-        int program_WriteBuffer(uint32_t flash_block_addr, uint32_t count);
+        // Program the current contents of the write buffer, up to a whole erase block
+        int program_WriteBuffer(uint32_t flash_addr, uint32_t count);
         // Read address to the read buffer, up to a whole block
-        int readto_ReadBuffer(uint32_t flash_block_addr, uint32_t count);
+        int readto_ReadBuffer(uint32_t flash_addr, uint32_t count);
+
+        //Set a chunk of the write buffer. For example, chunks arrive 64 bytes at a time from serial (hex encoded so 128 serial bytes for 64 real bytes)
+        int set_WriteBufferChunk(uint32_t buffer_index, char* bytes, uint32_t count);
+        //can be done trivially by getting read buffer pointer and reading the required number of bytes from the index
+        //Get a given chunk of the read buffer. For example, after reading a whole block and writing it to serial 128 hex bytes at a time
+        //int get_ReadBufferChunk(uint32_t buffer_index, uint32_t count);
 
         int write_SPIF_Byte(uint8_t databyte, uint32_t flash_byte_addr);
         int read_SPIF_Byte(uint8_t* dest_byte, uint32_t flash_byte_addr);
         
         //read the specified block on the device to serial, in chunks of the given size
-        int read_SPIF_Block(uint32_t flash_block_addr, uint8_t chunksize);
-        int write_SPIF_Block(uint32_t flash_block_addr);
-        int erase_SPIF_Block(uint32_t flash_block_addr);
-        char* checksum_SPIF_Block(uint32_t flash_block_addr);
+        //The address is in bytes but most fall on a block boundary
+        int read_SPIF_Block(uint32_t flash_boundary_addr, uint8_t chunksize);
+        int write_SPIF_Block(uint32_t flash_boundary_addr);
+        int erase_SPIF_Block(uint32_t flash_boundary_addr);
+        char* checksum_SPIF_Block(uint32_t flash_boundary_addr);
 
         // todo read byte range
         // todo write byte range
@@ -90,7 +98,7 @@ class UARTStorage
         //For Winbond, these will be 4 KBytes malloc'd each!
         char* in_buffer = NULL;
         char* out_buffer = NULL;
-        uint32_t buffer_size = 0;
+        uint32_t buffer_size = 0; //buffer size discovered at runtime by reading flash erase size, although will usually be 4096 bytes
 
         
 };

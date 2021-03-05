@@ -105,12 +105,12 @@ int UARTStorage::program_WriteBuffer(uint32_t flash_addr, uint32_t count)
 }
 
 
-// Read address to the read buffer
-int UARTStorage::readto_ReadBuffer(uint32_t flash_block_addr, uint32_t count)
+// Read 'count' bytes from flash to read buffer
+int UARTStorage::readto_ReadBuffer(uint32_t flash_addr, uint32_t count)
 {
     int status;
 
-    status = spif->read(in_buffer, flash_block_addr, count);
+    status = spif->read(in_buffer, flash_addr, count);
 
     return status;
 }
@@ -142,11 +142,15 @@ int UARTStorage::write_SPIF_Byte(uint8_t databyte, uint32_t flash_byte_addr)
 } */
 
 
-
-int UARTStorage::read_SPIF_Block(uint32_t flash_block_addr, uint8_t chunksize)
+//Read whole block to serial
+int UARTStorage::read_SPIF_Block(uint32_t flash_boundary_addr, uint8_t chunksize)
 {
-    // send bytes to serial, 'chunksize' at a time
-    //readto_ReadBuffer(flash_block_addr);
+    //check we are actually on an erase boundary
+
+    //first read whole block to in buffer
+
+    //then send bytes to serial, 'chunksize' at a time
+    //get the read buffer pointer, then write out 64 bytes as hex at a time until we have sent the whole erase block
 
     return 0;
 }
@@ -229,22 +233,29 @@ void UARTStorage::lineBufferHandler(char* lineBuffer, FILE* output_pc)
 {
     int status, addr, start_byte, end_byte = -1; //temporary vars used when parsing the command
     char command[16] = {0};
+    
     //Value 1
     //Reads: used for address (byte or block), or start of range
     //Writes: used for address
     //Checksum: used for address if for single block, or start of byte range
     char value1 [32] = {0};
+    
     //Value 2
     //Reads: end of byte range for range readingg
     //Writes: used for data
     //Checksum: used for end of byte range
     char value2 [240] = {0};
+    
+    //Value 3
+    //Writes: used for end of byte range when writing range of buffer to device
+    char value3 [32] = {0};
+
 
     //fprintf(pc, "--lineBufferHandler got line: %s--\n", lineBuffer);
     //TODO: sscanf or strtok or istream the lineBuffer into command and value(s)
     //      then process command and call appropriate UARTStorage functions
 
-    int scan_count = sscanf(lineBuffer, "%s %s %s", command, value1, value2);
+    int scan_count = sscanf(lineBuffer, "%s %s %s %s", command, value1, value2, value3);
 
     //TODO: buffer overflow possible, use strtok or regex instead?
     fprintf(output_pc, "--lineBuffer command: %s--\n", command);
@@ -269,7 +280,7 @@ void UARTStorage::lineBufferHandler(char* lineBuffer, FILE* output_pc)
             fprintf(output_pc, "I: SPI Deinitialized %d\n", status);
         }
     }
-    // readblk A, chksum A
+    // readblk A, readbyte A, chksum A, send whole writebuffer to address
     else if(scan_count == 2)
     {
         // read block A
@@ -299,7 +310,7 @@ void UARTStorage::lineBufferHandler(char* lineBuffer, FILE* output_pc)
             
         }
     }
-    //
+    // read byte range, set bytes in write buffer, checksum a byte range
     else if(scan_count == 3)
     {
         //read byte range from byte Start to End (inclusive)
@@ -309,27 +320,31 @@ void UARTStorage::lineBufferHandler(char* lineBuffer, FILE* output_pc)
             sscanf(value2, "%d", &end_byte);
             //todo do read into buffer, then print out in chunks
         }
-        //write byte range
-        else if(strcmp("writebytes", command) == 0)
+        //write bytes to a given location in the buffer
+        else if(strcmp("setwritebuffer", command) == 0)
         {
-            //get count of bytes
-
-            //put in buffer, and then write output buffer to the device at the appropriate place
-        }
-        //write block
-        else if(strcmp("writebytes", command) == 0)
-        {
-            //todo since we are writing block, have routine to fill up output buffer before doing any writes?
+            //get buffer address
 
             //get count of bytes
 
             //put in buffer, and then write output buffer to the device at the appropriate place
-
         }
         //checksum a byte range from Start to End (inclusive)
         else if(strcmp("chkbytes", command) == 0)
         {
             
+        }
+    else if(scan_count == 4)
+        //write a given range in the buffer to address on the flash device
+        if(strcmp("writebufferrange", command) == 0)
+        {
+            //get flash address
+
+            //get buffer index 1
+
+            //get buffer index 2
+
+            //do write
         }
     }
     else
